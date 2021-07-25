@@ -34,18 +34,22 @@ def write_to_excel(ws, stock_index):
 
 
 def main():
-    wb = xl.load_workbook('HK_2021.xlsx', data_only=True)
+    path = 'data/HK_2021.xlsx'
+    wb = xl.load_workbook(path, data_only=True)
     worksheet_names = wb.sheetnames[1:]
-    print(len(worksheet_names))
+    print("Number of worksheets: " + str(len(worksheet_names)))
+    print()
     for sheet_index in range(1, len(worksheet_names) + 1):
         wb.active = sheet_index
-        print(wb.active.title)
+        print("Current worksheet: " + wb.active.title)
         stock_dict = get_tickers(wb.active, 'B')
         closing_prices = get_stock_prices(stock_dict)
         updated_index = update_stock_prices(stock_dict, closing_prices)
+        print("Data:")
         print(updated_index)
+        print()
         write_to_excel(wb.active, updated_index)
-        wb.save('HK_2021.xlsx')
+        wb.save('data/HK_2021.xlsx')
 
     # Recovery Code:
     # ws = wb.active
@@ -58,4 +62,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
