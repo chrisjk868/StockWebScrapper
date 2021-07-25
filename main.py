@@ -49,7 +49,7 @@ def main():
         print(updated_index)
         print()
         write_to_excel(wb.active, updated_index)
-        wb.save('data/HK_2021.xlsx')
+        wb.save(path)
 
     # Recovery Code:
     # ws = wb.active
