@@ -20,39 +20,39 @@ def get_stock_prices(stocks):
     return current_price
 
 
-def updateStockPrices(stockIndex, close):
+def update_stock_prices(stock_index, close):
     i = 0
-    for stock in stockIndex.keys():
-        stockIndex[stock][1] = close[i]
+    for stock in stock_index.keys():
+        stock_index[stock][1] = close[i]
         i += 1
-    return stockIndex
+    return stock_index
 
 
-def writeExcel(ws, stockIndex):
-    for stock in stockIndex:
-        ws[stockIndex[stock][0]] = stockIndex[stock][1]
+def write_to_excel(ws, stock_index):
+    for stock in stock_index:
+        ws[stock_index[stock][0]] = stock_index[stock][1]
 
 
 def main():
     wb = xl.load_workbook('HK_2021.xlsx', data_only=True)
     worksheet_names = wb.sheetnames[1:]
-    print(worksheet_names)
-    for sheet_index in range(1, 4):
+    print(len(worksheet_names))
+    for sheet_index in range(1, len(worksheet_names) + 1):
         wb.active = sheet_index
         print(wb.active.title)
         stock_dict = get_tickers(wb.active, 'B')
         closing_prices = get_stock_prices(stock_dict)
-        updated_index = updateStockPrices(stock_dict, closing_prices)
+        updated_index = update_stock_prices(stock_dict, closing_prices)
         print(updated_index)
-        writeExcel(wb.active, updated_index)
+        write_to_excel(wb.active, updated_index)
         wb.save('HK_2021.xlsx')
 
     # Recovery Code:
     # ws = wb.active
     # stock_dict = get_tickers(ws, 'B')
     # closing_prices = get_stock_prices(stock_dict)
-    # updated_index = updateStockPrices(stock_dict, closing_prices)
-    # writeExcel(ws, updated_index)
+    # updated_index = update_stock_prices(stock_dict, closing_prices)
+    # write_to_excel(ws, updated_index)
     # wb.save('HK_2021.xlsx')
 
 
